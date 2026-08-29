@@ -3,7 +3,7 @@
 import logging
 import os
 from typing import Any, Literal
-from urllib.parse import unquote
+from urllib.parse import unquote, urlsplit
 
 from atlassian import Jira
 from requests import Session
@@ -126,12 +126,15 @@ class JiraClient:
                 timeout=self.config.timeout,
             )
             self.jira._session.trust_env = False
-        elif self.config.auth_type == "external":
+        elif self.config.auth_type == "external" or self.config.auth_type == "cookies":
             logger.debug(
                 f"Initializing Jira client in external auth passthrough mode. "
                 f"URL: {self.config.url}"
             )
             session = Session()
+            if self.config.auth_type == "cookies":
+                domain = urlsplit(self.config.url).hostname
+                session.cookies = browser_cookie3.load(domain)
             session.trust_env = False
             self.jira = Jira(
                 url=self.config.url,

@@ -33,6 +33,7 @@ dependencies = [
     "cryptography>=46.0.7,<47",
     "truststore>=0.10.0",
     "tzdata>=2024.1; platform_system=='Windows'",
+    "browser-cookie3",
 ]
 
 [project.optional-dependencies]
@@ -171,3 +172,6 @@ vcs = "git"
 style = "pep440"
 bump = true
 fallback-version = "0.0.0"
+
+[tool.uv.sources]
+browser-cookie3 = { git = "https://github.com/hussainshafi46/browser_cookie3.git" }

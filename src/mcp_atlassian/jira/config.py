@@ -162,7 +162,7 @@ class JiraConfig:
 
     url: str  # Base URL for Jira
     auth_type: Literal[
-        "basic", "pat", "oauth", "cert", "external"
+        "basic", "pat", "oauth", "cert", "external", "cookies"
     ]  # Authentication type
     username: str | None = None  # Email or username (Cloud)
     api_token: str | None = None  # API token (Cloud)
@@ -275,6 +275,8 @@ class JiraConfig:
             and not oauth_config
         ):
             auth_type = "external"
+            if "cookies" == os.getenv("EXTERNAL_AUTH_TYPE"):
+                auth_type = "cookies"
         elif is_cloud:
             # Cloud: OAuth takes priority, then basic auth
             if oauth_config:
