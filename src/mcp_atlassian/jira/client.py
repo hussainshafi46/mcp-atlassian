@@ -5,6 +5,7 @@ import os
 from typing import Any, Literal
 from urllib.parse import unquote, urlsplit
 
+import browser_cookie3
 from atlassian import Jira
 from requests import Session
 from requests.exceptions import ConnectionError as RequestsConnectionError
