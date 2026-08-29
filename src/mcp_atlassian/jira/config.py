@@ -441,7 +441,7 @@ class JiraConfig:
             return bool(self.username and self.api_token)
         elif self.auth_type == "cert":
             return bool(self.client_cert)
-        elif self.auth_type == "external":
+        elif self.auth_type in ("external", "cookies"):
             return True
         logger.warning(
             f"Unknown or unsupported auth_type: {self.auth_type} in JiraConfig"
