@@ -175,6 +175,13 @@ def get_available_services(
             "- expecting user-provided tokens via headers"
         )
 
+    if not jira_is_setup and os.getenv("EXTERNAL_AUTH_TYPE", "").lower() == "cookies":
+        jira_is_setup = True
+        logger.info(
+            "Using Jira cookie configuration "
+            "- expecting a browser session to be authenticated"
+        )
+
     if not jira_is_setup and is_env_truthy("ATLASSIAN_EXTERNAL_AUTH_ENABLE"):
         jira_is_setup = True
         logger.info(

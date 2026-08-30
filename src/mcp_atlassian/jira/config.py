@@ -268,15 +268,16 @@ class JiraConfig:
 
         # External auth passthrough mode — no credentials needed
         if (
-            is_env_truthy("ATLASSIAN_EXTERNAL_AUTH_ENABLE")
+            (
+                is_env_truthy("ATLASSIAN_EXTERNAL_AUTH_ENABLE") or 
+                os.getenv("EXTERNAL_AUTH_TYPE", "").lower() == "cookies"
+            )
             and not username
             and not api_token
             and not personal_token
             and not oauth_config
         ):
-            auth_type = "external"
-            if "cookies" == os.getenv("EXTERNAL_AUTH_TYPE"):
-                auth_type = "cookies"
+            auth_type = "cookies" if "cookies" == os.getenv("EXTERNAL_AUTH_TYPE") else "external"
         elif is_cloud:
             # Cloud: OAuth takes priority, then basic auth
             if oauth_config:

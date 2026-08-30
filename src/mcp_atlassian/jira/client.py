@@ -133,9 +133,11 @@ class JiraClient:
                 f"URL: {self.config.url}"
             )
             session = Session()
+
             if self.config.auth_type == "cookies":
                 domain = urlsplit(self.config.url).hostname
                 session.cookies = browser_cookie3.load(domain)
+
             session.trust_env = False
             self.jira = Jira(
                 url=self.config.url,
@@ -238,7 +240,7 @@ class JiraClient:
         self._current_user_account_id = None
 
         # Test authentication during initialization (in debug mode only)
-        if logger.isEnabledFor(logging.DEBUG) and self.config.auth_type != "external":
+        if logger.isEnabledFor(logging.DEBUG) and self.config.auth_type not in ("external", "cookies"):
             try:
                 self._validate_authentication()
             except MCPAtlassianAuthenticationError:
